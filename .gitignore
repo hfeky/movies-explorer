@@ -1,0 +1,25 @@
+# Gradle cached files
+.gradle/
+
+# IntelliJ Files specific to the project configuration
+*.iml
+.idea/
+
+# Generated files when building the app
+build/
+app/build/
+
+# Build outputs (.apk, .aab, etc.)
+app/debug/
+app/release/
+
+# Private files that should be protected
+app/google-services.json
+*.jks
+*.keystore
+
+# May contain private properties such as API key, etc.
+gradle.properties
+
+# Local configuration file (sdk path, etc)
+local.properties
