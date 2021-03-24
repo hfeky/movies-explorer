@@ -5,13 +5,13 @@ import androidx.room.PrimaryKey
 import com.husseinelfeky.moviesexplorer.utils.adapter.DifferentiableItem
 
 @Entity(tableName = "movies")
-data class MovieEntity(
-    @PrimaryKey
-    val id: String,
-    val name: String,
+data class Movie(
+    @PrimaryKey val movieName: String,
+    val rating: Int,
+    val year: Int
 ) : DifferentiableItem {
 
-    override fun getUniqueIdentifier(): Any = id
+    override fun getUniqueIdentifier(): Any = movieName
 
     override fun getContent(): String = toString()
 }

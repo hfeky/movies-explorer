@@ -3,6 +3,7 @@ package com.husseinelfeky.moviesexplorer
 import android.app.Application
 import com.husseinelfeky.moviesexplorer.koin.databaseModule
 import com.husseinelfeky.moviesexplorer.koin.repositoriesModule
+import com.husseinelfeky.moviesexplorer.koin.servicesModule
 import com.husseinelfeky.moviesexplorer.koin.viewModelsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
@@ -30,7 +31,8 @@ class MoviesExplorerApp : Application() {
             modules(
                 databaseModule,
                 repositoriesModule,
-                viewModelsModule
+                viewModelsModule,
+                servicesModule
             )
         }
     }
