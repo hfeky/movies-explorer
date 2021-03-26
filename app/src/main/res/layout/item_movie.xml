@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.husseinelfeky.moviesexplorer.database.entity.Movie" />
+
+        <variable
+            name="handler"
+            type="com.husseinelfeky.moviesexplorer.ui.master.adapter.MovieViewHolder" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{() -> handler.click(movie)}"
+        android:padding="8dp">
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tv_year,tv_rating" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="@{movie.movieName}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/barrier_details"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Resident Evil: The Final Chapter With Some Very Long Text To Test How It Truncates" />
+
+        <TextView
+            android:id="@+id/tv_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(movie.year)}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="2016" />
+
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{String.valueOf(movie.rating)}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:drawableStartCompat="@drawable/ic_star_yellow"
+            app:layout_constraintEnd_toEndOf="@id/tv_year"
+            app:layout_constraintTop_toBottomOf="@id/tv_year"
+            tools:text="5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -2,7 +2,7 @@
  * Base application values.
  */
 object BuildConfig {
-    const val minSdk = 16
+    const val minSdk = 17
     const val targetSdk = 30
     const val compileSdk = 30
     const val versionCode = 1
