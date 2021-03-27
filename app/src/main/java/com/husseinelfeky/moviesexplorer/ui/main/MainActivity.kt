@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_host_fragment
         ) as NavHostFragment
 
-        NavigationUI.setupActionBarWithNavController(
-            this,
+        NavigationUI.setupWithNavController(
+            binding.toolbar,
             navHostFragment.navController
         )
     }

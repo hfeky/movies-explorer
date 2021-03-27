@@ -11,9 +11,10 @@ val viewModelsModule = module {
             moviesRepository = get()
         )
     }
-    viewModel {
+    viewModel { (movieName: String) ->
         DetailViewModel(
-            moviesRepository = get()
+            moviesRepository = get(),
+            movieName = movieName
         )
     }
 }

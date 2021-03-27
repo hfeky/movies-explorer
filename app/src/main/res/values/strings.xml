@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Movies Explorer</string>
+
+    <!-- Detail Screen -->
+    <string name="released_in">Released in %s</string>
+    <string name="cast">Cast</string>
+
 </resources>

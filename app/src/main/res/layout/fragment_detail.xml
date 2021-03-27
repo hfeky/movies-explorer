@@ -1,10 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.husseinelfeky.moviesexplorer.ui.detail.DetailViewModel" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            app:layoutDescription="@xml/scene_fragment_detail">
+
+            <TextView
+                android:id="@+id/tv_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@{@string/released_in(viewModel.movie.year)}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@id/tv_rating"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Released in 2016" />
+
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{String.valueOf(viewModel.movie.rating)}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_star_yellow"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_year"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="5" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_year" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray_500"
+                app:layout_constraintTop_toBottomOf="@id/cg_genres" />
+
+            <TextView
+                android:id="@+id/tv_cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/cast"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_cast"
+                app:spanCount="2"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_cast_member" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
