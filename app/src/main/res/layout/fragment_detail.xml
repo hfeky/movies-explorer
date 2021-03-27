@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            app:layoutDescription="@xml/scene_fragment_detail">
+            app:layoutDescription="@xml/scene_fragment_detail"
+            tools:showPaths="true">
 
             <TextView
                 android:id="@+id/tv_year"
