@@ -122,4 +122,6 @@ object Dependencies {
         "com.linkedin.dexmaker:dexmaker-mockito:${Versions.dexMakerMockito}"
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+
+    const val spinKit = "com.github.ybq:Android-SpinKit:${Versions.spinKit}"
 }

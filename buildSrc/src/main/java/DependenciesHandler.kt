@@ -24,6 +24,7 @@ fun DependencyHandlerScope.uiDependencies() {
     "implementation"(Dependencies.AndroidX.constraintLayout)
     "implementation"(Dependencies.AndroidX.recyclerView)
     "implementation"(Dependencies.AndroidX.cardView)
+    "implementation"(Dependencies.spinKit)
 }
 
 fun DependencyHandlerScope.activityDependencies() {
