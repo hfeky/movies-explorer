@@ -7,8 +7,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.husseinelfeky.moviesexplorer.R
 import com.husseinelfeky.moviesexplorer.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -17,8 +20,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        initView()
         initNavController()
+        initObservers()
+    }
+
+    private fun initView() {
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
     }
 
     private fun initNavController() {
@@ -53,6 +62,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.movieImages.observe(this) {
+            // TODO
         }
     }
 }

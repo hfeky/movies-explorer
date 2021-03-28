@@ -6,7 +6,8 @@ import org.koin.dsl.module
 val repositoriesModule = module {
     factory {
         MoviesRepository(
-            moviesDao = get()
+            moviesDao = get(),
+            flickrApiService = get()
         )
     }
 }
