@@ -11,16 +11,33 @@
 
     </data>
 
-    <TextView
+    <!--
+    A separate ImageView was used instead of a compound drawable,
+    so that the bullet point is not centered when the cast member
+    name takes more than one line.
+    -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:drawablePadding="6dp"
-        android:gravity="center|start"
-        android:text="@{castMemberName}"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:drawableStartCompat="@drawable/ic_bullet_point_black"
-        tools:text="Carolyn Lawrence" />
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_bullet_point_white"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{castMemberName}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="Carolyn Lawrence" />
+
+    </LinearLayout>
 
 </layout>
