@@ -19,7 +19,6 @@ data class MovieImage(
     val server: String
 ) {
 
-    fun getUrl(): String {
-        return "https://farm${farm}.static.flickr.com/${server}/${id}_${secret}.jpg"
-    }
+    val url: String
+        get() = "https://farm${farm}.static.flickr.com/${server}/${id}_${secret}.jpg"
 }

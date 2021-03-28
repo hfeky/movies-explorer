@@ -16,6 +16,10 @@ data class Result<out T>(
         LOADING
     }
 
+    fun requireData(): T {
+        return data ?: throw IllegalStateException("Data $data is null.")
+    }
+
     fun requireMessage(): String {
         return message ?: throw IllegalStateException("Message $message is null.")
     }

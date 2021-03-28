@@ -31,15 +31,6 @@
                 app:maxLines="3"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:contentInsetEndWithActions="0dp"
-                    app:contentInsetStartWithNavigation="0dp"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
-
                 <com.github.ybq.android.spinkit.SpinKitView
                     android:id="@+id/pb_images"
                     style="@style/SpinKitView.Wave"
@@ -68,6 +59,35 @@
                         app:srcCompat="@drawable/img_error_state" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/sv_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:sliderAnimationDuration="1200"
+                    app:sliderAutoCycleDirection="right"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorEnabled="true"
+                    app:sliderIndicatorGravity="center_vertical|end"
+                    app:sliderIndicatorMargin="16dp"
+                    app:sliderIndicatorOrientation="vertical"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="@color/blue"
+                    app:sliderIndicatorUnselectedColor="@color/white"
+                    app:sliderScrollTimeInSec="5"
+                    app:sliderStartAutoCycle="true" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetEndWithActions="0dp"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

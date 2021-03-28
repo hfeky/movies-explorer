@@ -9,7 +9,10 @@ import androidx.navigation.ui.NavigationUI
 import com.husseinelfeky.moviesexplorer.R
 import com.husseinelfeky.moviesexplorer.databinding.ActivityMainBinding
 import com.husseinelfeky.moviesexplorer.model.Result
+import com.husseinelfeky.moviesexplorer.ui.main.adapter.MovieImagesAdapter
+import com.husseinelfeky.moviesexplorer.utils.MovieImages
 import com.husseinelfeky.moviesexplorer.utils.showSnackbar
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private var isFirstLaunch = true
+
+    private val movieImagesAdapter: MovieImagesAdapter by lazy { MovieImagesAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +55,15 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.masterFragment -> {
-                    // Collapse and disable the CollapsingToolbarLayout.
-                    binding.appBar.apply {
-                        setExpanded(false, !isFirstLaunch)
-                        isActivated = false
+                    binding.apply {
+                        // Collapse and disable the CollapsingToolbarLayout.
+                        appBar.setExpanded(false, !isFirstLaunch)
+                        appBar.isActivated = false
+
+                        // Hide movie images views.
+                        svImages.visibility = View.GONE
+                        layoutErrorState.visibility = View.GONE
+                        pbImages.visibility = View.GONE
                     }
                     isFirstLaunch = false
                 }
@@ -70,19 +80,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         viewModel.movieImages.observe(this) { result ->
-            when (result.status) {
-                Result.Status.LOADING -> {
-                    binding.pbImages.visibility = View.VISIBLE
-                }
-                Result.Status.SUCCESS -> {
-                    // TODO
-                }
-                Result.Status.ERROR -> {
-                    binding.pbImages.visibility = View.GONE
-                    binding.layoutErrorState.visibility = View.VISIBLE
-                    binding.ivError.contentDescription = result.message
+            binding.apply {
+                when (result.status) {
+                    Result.Status.LOADING -> {
+                        svImages.visibility = View.GONE
+                        layoutErrorState.visibility = View.GONE
+                        pbImages.visibility = View.VISIBLE
+                    }
+                    Result.Status.SUCCESS -> {
+                        layoutErrorState.visibility = View.GONE
+                        svImages.visibility = View.VISIBLE
+                        if (svImages.sliderAdapter == null) {
+                            svImages.setIndicatorAnimation(IndicatorAnimationType.DROP)
+                            svImages.setOffscreenPageLimit(MovieImages.PAGE_COUNT)
+                            svImages.setSliderAdapter(movieImagesAdapter)
+                        }
 
-                    showSnackbar(result.requireMessage())
+                        movieImagesAdapter.setData(result.requireData())
+                        svImages.setInfiniteAdapterEnabled(true)
+                    }
+                    Result.Status.ERROR -> {
+                        pbImages.visibility = View.GONE
+                        svImages.visibility = View.GONE
+                        layoutErrorState.visibility = View.VISIBLE
+                        ivError.contentDescription = result.message
+
+                        showSnackbar(result.requireMessage())
+                    }
                 }
             }
         }

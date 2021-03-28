@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movieImage"
+            type="com.husseinelfeky.moviesexplorer.model.MovieImage" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@{movieImage.title}"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{movieImage.url}"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <!--
+        Since the toolbar title and back button are white, some images might
+        be too bright that the toolbar title and back button do not appear
+        very well, thus applying a slight dim would make them look clearer.
+        -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.25"
+            android:background="#000000" />
+
+    </FrameLayout>
+
+</layout>

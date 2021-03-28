@@ -9,6 +9,7 @@ import com.husseinelfeky.moviesexplorer.model.MovieImage
 import com.husseinelfeky.moviesexplorer.model.Result
 import com.husseinelfeky.moviesexplorer.network.FlickrApiService
 import com.husseinelfeky.moviesexplorer.utils.Flickr
+import com.husseinelfeky.moviesexplorer.utils.MovieImages
 import com.husseinelfeky.moviesexplorer.utils.getResult
 import com.husseinelfeky.moviesexplorer.utils.mapResultTo
 import kotlinx.coroutines.flow.Flow
@@ -29,8 +30,8 @@ class MoviesRepository(
 
     suspend fun getMovieImages(
         movieName: String,
-        page: Int = 1,
-        perPage: Int = 5
+        page: Int = MovieImages.INITIAL_PAGE,
+        perPage: Int = MovieImages.PAGE_COUNT
     ): Flow<Result<List<MovieImage>>> {
         return flow {
             getResult("Failed to fetch movie images.") {
