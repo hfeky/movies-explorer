@@ -1,12 +1,15 @@
 package com.husseinelfeky.moviesexplorer.ui.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.husseinelfeky.moviesexplorer.R
 import com.husseinelfeky.moviesexplorer.databinding.ActivityMainBinding
+import com.husseinelfeky.moviesexplorer.model.Result
+import com.husseinelfeky.moviesexplorer.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -66,8 +69,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.movieImages.observe(this) {
-            // TODO
+        viewModel.movieImages.observe(this) { result ->
+            when (result.status) {
+                Result.Status.LOADING -> {
+                    binding.pbImages.visibility = View.VISIBLE
+                }
+                Result.Status.SUCCESS -> {
+                    // TODO
+                }
+                Result.Status.ERROR -> {
+                    binding.pbImages.visibility = View.GONE
+                    binding.layoutErrorState.visibility = View.VISIBLE
+                    binding.ivError.contentDescription = result.message
+
+                    showSnackbar(result.requireMessage())
+                }
+            }
         }
     }
 }

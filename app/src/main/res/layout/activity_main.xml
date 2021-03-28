@@ -48,6 +48,27 @@
                     android:layout_gravity="center"
                     app:isVisible="@{viewModel.imagesLoading}" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_error_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/iv_error"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/cd_error_state"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.5"
+                        app:srcCompat="@drawable/img_error_state" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

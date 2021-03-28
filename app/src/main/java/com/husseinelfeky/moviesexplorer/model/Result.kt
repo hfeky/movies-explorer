@@ -16,6 +16,10 @@ data class Result<out T>(
         LOADING
     }
 
+    fun requireMessage(): String {
+        return message ?: throw IllegalStateException("Message $message is null.")
+    }
+
     companion object {
         fun <T> success(data: T?): Result<T> {
             return Result(Status.SUCCESS, data, null, null)
