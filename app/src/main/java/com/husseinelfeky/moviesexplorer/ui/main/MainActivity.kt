@@ -12,6 +12,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private var isFirstLaunch = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -25,10 +27,32 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment
         ) as NavHostFragment
+        val navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(
+            binding.collapsingToolbar,
             binding.toolbar,
-            navHostFragment.navController
+            navController
         )
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.masterFragment -> {
+                    // Collapse and disable the CollapsingToolbarLayout.
+                    binding.appBar.apply {
+                        setExpanded(false, !isFirstLaunch)
+                        isActivated = false
+                    }
+                    isFirstLaunch = false
+                }
+                R.id.detailFragment -> {
+                    // Expand and enable the CollapsingToolbarLayout.
+                    binding.appBar.apply {
+                        setExpanded(true, true)
+                        isActivated = true
+                    }
+                }
+            }
+        }
     }
 }
