@@ -25,6 +25,7 @@ fun DependencyHandlerScope.uiDependencies() {
     "implementation"(Dependencies.AndroidX.recyclerView)
     "implementation"(Dependencies.AndroidX.cardView)
     "implementation"(Dependencies.spinKit)
+    "implementation"(Dependencies.autoImageSlider)
 }
 
 fun DependencyHandlerScope.activityDependencies() {

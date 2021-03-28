@@ -23,6 +23,7 @@ object Versions {
     const val recyclerView = "1.1.0"
     const val cardView = "1.0.0"
     const val spinKit = "1.4.0"
+    const val autoImageSlider = "1.4.0"
 
     // Activity Dependencies
     const val activity = "1.2.1"
