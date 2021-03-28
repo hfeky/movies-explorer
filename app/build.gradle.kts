@@ -1,9 +1,17 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
+
 plugins {
     id(Plugins.androidApp)
     `kotlin-android`
     `kotlin-parcelize`
     `kotlin-kapt`
     id(Plugins.androidXNavSafeArgs)
+}
+
+val credentialsFile = rootProject.file("credentials.properties")
+val credentialsProperties = Properties().apply {
+    load(FileInputStream(credentialsFile))
 }
 
 android {
@@ -17,6 +25,12 @@ android {
         versionName = BuildConfig.versionName
         testInstrumentationRunner = BuildConfig.testInstrumentationRunner
         multiDexEnabled = true
+
+        buildConfigField(
+            "String",
+            "FLICKR_API_KEY",
+            credentialsProperties["flickrApiKey"] as String
+        )
     }
 
     buildTypes {
