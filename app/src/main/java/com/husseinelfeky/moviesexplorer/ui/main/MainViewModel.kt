@@ -5,6 +5,7 @@ import com.husseinelfeky.moviesexplorer.model.MovieImage
 import com.husseinelfeky.moviesexplorer.model.Result
 import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.utils.collectTo
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
@@ -20,7 +21,16 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
 
     fun getMovieImages(movieName: String) {
         viewModelScope.launch {
-            moviesRepository.getMovieImages(movieName).collectTo(_movieImages)
+            moviesRepository.getMovieImages(movieName)
+                .map { result ->
+                    // Some movies do not have images returned from Flickr API.
+                    if (result.status == Result.Status.SUCCESS && result.requireData().isEmpty()) {
+                        Result.error("No images were found.", null)
+                    } else {
+                        result
+                    }
+                }
+                .collectTo(_movieImages)
         }
     }
 }
