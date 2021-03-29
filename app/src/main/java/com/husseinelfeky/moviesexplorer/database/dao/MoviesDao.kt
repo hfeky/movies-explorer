@@ -19,15 +19,13 @@ interface MoviesDao {
     /**
      * [COLLATE NOCASE] is used to ignore characters case.
      *
-     * @return an observable list of top 5 rated movies.
+     * @return an observable list of the search query.
      */
     @Query(
         """
         SELECT * FROM movies
         WHERE movieName LIKE '%' || :query || '%'
         COLLATE NOCASE
-        ORDER BY movieName, rating DESC
-        LIMIT 5
         """
     )
     fun getMoviesByQuery(query: String): LiveData<List<Movie>>

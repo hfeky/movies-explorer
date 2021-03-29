@@ -1,6 +1,7 @@
 package com.husseinelfeky.moviesexplorer.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.husseinelfeky.moviesexplorer.BuildConfig
 import com.husseinelfeky.moviesexplorer.database.dao.MoviesDao
 import com.husseinelfeky.moviesexplorer.database.entity.Movie
@@ -25,7 +26,20 @@ class MoviesRepository(
     }
 
     fun searchMoviesByName(searchQuery: String): LiveData<List<Movie>> {
-        return moviesDao.getMoviesByQuery(searchQuery)
+        // The results are already filtered from the DAO.
+        // We only need to group them and get top 5 movies of each year.
+        return moviesDao.getMoviesByQuery(searchQuery).map { movies ->
+            // Group (categorize) the results by year.
+            movies.groupBy { it.year }
+                // Transform the map to a list.
+                .flatMap { year ->
+                    // Sort the results first with rating in descending order,
+                    // then by movie name in ascending order.
+                    year.value.sortedWith(compareBy({ -it.rating }, { it.movieName }))
+                        // Then take only the top 5 movies of each year.
+                        .take(5)
+                }
+        }
     }
 
     suspend fun getMovieByName(name: String): MovieDetails {
