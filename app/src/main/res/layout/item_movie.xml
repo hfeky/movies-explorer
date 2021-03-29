@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{String.valueOf(movie.year)}"
-            android:textColor="@color/gray_500"
+            android:textColor="@color/blue"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_name"
