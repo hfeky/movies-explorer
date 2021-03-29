@@ -24,6 +24,10 @@ class MoviesRepository(
         return moviesDao.getAllMovies()
     }
 
+    fun searchMoviesByName(searchQuery: String): LiveData<List<Movie>> {
+        return moviesDao.getMoviesByQuery(searchQuery)
+    }
+
     suspend fun getMovieByName(name: String): MovieDetails {
         return moviesDao.getMovieByName(name)
     }

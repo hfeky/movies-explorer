@@ -16,10 +16,16 @@ interface MoviesDao {
     @Query("SELECT * FROM movies ORDER BY movieName")
     fun getAllMovies(): LiveData<List<Movie>>
 
+    /**
+     * [COLLATE NOCASE] is used to ignore characters case.
+     *
+     * @return an observable list of top 5 rated movies.
+     */
     @Query(
         """
         SELECT * FROM movies
         WHERE movieName LIKE '%' || :query || '%'
+        COLLATE NOCASE
         ORDER BY movieName, rating DESC
         LIMIT 5
         """
@@ -28,7 +34,7 @@ interface MoviesDao {
 
     @Transaction
     @Query("SELECT * FROM movies WHERE movieName = :name")
-    fun getMovieByName(name: String): LiveData<MovieDetails>
+    suspend fun getMovieByName(name: String): MovieDetails
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMovie(movie: Movie)

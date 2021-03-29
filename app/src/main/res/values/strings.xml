@@ -4,6 +4,8 @@
     <string name="app_name">Movies Explorer</string>
 
     <!-- Master Screen -->
+    <string name="search_a_movie">Search a movie</string>
+    <string name="hint_search_movie">Search a movie by name</string>
     <string name="cd_movies_header">Snacks and 3D Glasses</string>
     <string name="movies_header">Which movie are you watching tonight?</string>
 
