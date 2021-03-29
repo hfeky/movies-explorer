@@ -18,6 +18,7 @@ class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
+    // [MainViewModel] is used to communicate with [MainActivity] to show the movie images.
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private val viewModel: DetailViewModel by viewModel {
@@ -48,6 +49,7 @@ class DetailFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
+            // Update the inflated movie genres.
             binding.cgGenres.removeAllViews()
             movie.genres.forEach { genre ->
                 binding.cgGenres.addView(
@@ -57,6 +59,7 @@ class DetailFragment : Fragment() {
                 )
             }
 
+            // Update the cast list.
             castAdapter.submitList(movie.cast)
         }
     }

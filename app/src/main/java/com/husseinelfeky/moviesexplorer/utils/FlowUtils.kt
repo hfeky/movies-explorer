@@ -9,10 +9,16 @@ import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import java.io.IOException
 
+/**
+ * Collect the [Flow] to a [MutableLiveData].
+ */
 suspend fun <T> Flow<T>.collectTo(liveData: MutableLiveData<T>) {
     collect { liveData.value = it }
 }
 
+/**
+ * Wrap the response with a [Result] and handle success, error and loading status.
+ */
 suspend fun <T> FlowCollector<Result<T>>.getResult(
     defaultErrorMessage: String? = null,
     request: suspend () -> Response<T>
@@ -38,6 +44,9 @@ suspend fun <T> FlowCollector<Result<T>>.getResult(
     }
 }
 
+/**
+ * Map the [Flow] result to another result.
+ */
 fun <T, R> Flow<Result<T>>.mapResultTo(mapper: (T?) -> R?): Flow<Result<R>> {
     return map {
         when (it.status) {

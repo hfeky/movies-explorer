@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface FlickrApiService {
 
     @GET("services/rest/")
-    suspend fun searchPhoto(
+    suspend fun searchPhotos(
         @Query("method") method: String?,
         @Query("api_key") apiKey: String?,
         @Query("format") format: String?,

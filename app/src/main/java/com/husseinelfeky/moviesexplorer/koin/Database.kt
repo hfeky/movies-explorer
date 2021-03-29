@@ -24,14 +24,14 @@ val databaseModule = module {
             LocalDb::class.java,
             LocalDb::class.java.simpleName
         ).fallbackToDestructiveMigration()
+            // Populate the database with the movies.json file.
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
 
-                    val moviesFile =
-                        androidApplication().applicationContext.assets.readAssetFile(
-                            "movies.json"
-                        )
+                    val moviesFile = androidApplication().applicationContext.assets.readAssetFile(
+                        "movies.json"
+                    )
 
                     val moshi: Moshi = get()
                     val type = Types.newParameterizedType(List::class.java, MovieDto::class.java)

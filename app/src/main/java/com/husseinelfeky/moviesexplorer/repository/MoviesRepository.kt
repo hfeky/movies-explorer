@@ -22,10 +22,20 @@ class MoviesRepository(
     private val flickrApiService: FlickrApiService
 ) {
 
+    /**
+     * Retrieve all cached movies.
+     *
+     * @return an observable list of all cached movies.
+     */
     fun getAllMovies(): LiveData<List<Movie>> {
         return moviesDao.getAllMovies()
     }
 
+    /**
+     * Search movies by name.
+     *
+     * @return an observable list of movies grouped by year as [YearWithMovies].
+     */
     fun searchMoviesByName(searchQuery: String): LiveData<List<YearWithMovies>> {
         // The results are already filtered from the DAO.
         // We only need to group them and get top 5 movies of each year.
@@ -48,10 +58,16 @@ class MoviesRepository(
         }
     }
 
+    /**
+     * Get movie details by name.
+     */
     suspend fun getMovieByName(name: String): MovieDetails {
         return moviesDao.getMovieByName(name)
     }
 
+    /**
+     * Fetch movie images using Flickr API.
+     */
     suspend fun getMovieImages(
         movieName: String,
         page: Int = MovieImages.INITIAL_PAGE,
@@ -59,7 +75,7 @@ class MoviesRepository(
     ): Flow<Result<List<MovieImage>>> {
         return flow {
             getResult("Failed to fetch movie images.") {
-                flickrApiService.searchPhoto(
+                flickrApiService.searchPhotos(
                     method = Flickr.METHOD_SEARCH,
                     apiKey = BuildConfig.FLICKR_API_KEY,
                     format = "json",

@@ -25,6 +25,7 @@ class MasterFragment : Fragment() {
 
     private lateinit var binding: FragmentMasterBinding
 
+    // Use one universal adapter for both movies listing and movies search results.
     private val moviesAdapter = MoviesAdapter {
         findNavController().navigate(
             MasterFragmentDirections.actionMasterFragmentToDetailFragment(

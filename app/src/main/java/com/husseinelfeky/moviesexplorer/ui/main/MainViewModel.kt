@@ -14,6 +14,7 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
     val movieImages: LiveData<Result<List<MovieImage>>>
         get() = _movieImages
 
+    // Used in data binding to show the progress bar.
     val imagesLoading: LiveData<Boolean>
         get() = Transformations.map(movieImages) {
             it.status == Result.Status.LOADING

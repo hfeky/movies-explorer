@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
+        // Show the appropriate views according to the result status.
         viewModel.movieImages.observe(this) { result ->
             binding.apply {
                 when (result.status) {
@@ -91,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                         layoutErrorState.visibility = View.GONE
                         svImages.visibility = View.VISIBLE
                         if (svImages.sliderAdapter == null) {
+                            // Initialize the images slider adapter.
                             svImages.setIndicatorAnimation(IndicatorAnimationType.DROP)
                             svImages.setOffscreenPageLimit(MovieImages.PAGE_COUNT)
                             svImages.setSliderAdapter(movieImagesAdapter)
@@ -105,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                         layoutErrorState.visibility = View.VISIBLE
                         ivError.contentDescription = result.message
 
+                        // Show the error message.
                         showSnackbar(result.requireMessage())
                     }
                 }
