@@ -64,6 +64,10 @@ android {
         isReturnDefaultValues = true
     }
 
+    val sharedTestDir = "src/sharedTest/java"
+    sourceSets["test"].java.srcDir(sharedTestDir)
+    sourceSets["androidTest"].java.srcDir(sharedTestDir)
+
     @Suppress("UnstableApiUsage")
     buildFeatures {
         dataBinding = true
