@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.husseinelfeky.moviesexplorer.R
 import com.husseinelfeky.moviesexplorer.databinding.FragmentMasterBinding
 import com.husseinelfeky.moviesexplorer.ui.master.adapter.MoviesAdapter
+import com.husseinelfeky.moviesexplorer.utils.adapter.DifferentiableItem
 import com.husseinelfeky.moviesexplorer.utils.observeChanges
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,6 +35,27 @@ class MasterFragment : Fragment() {
         )
     }
 
+    // A callback that is invoked when all movies are displayed.
+    private val allMoviesCallback: (List<DifferentiableItem>) -> Unit = {
+        binding.apply {
+            ivNoSearchResults.visibility = View.GONE
+            tvNoSearchResults.visibility = View.GONE
+        }
+    }
+
+    // A callback that is invoked when a movies search query is performed.
+    private val searchQueryCallback: (List<DifferentiableItem>) -> Unit = {
+        binding.apply {
+            if (it.isEmpty()) {
+                ivNoSearchResults.visibility = View.VISIBLE
+                tvNoSearchResults.visibility = View.VISIBLE
+            } else {
+                ivNoSearchResults.visibility = View.GONE
+                tvNoSearchResults.visibility = View.GONE
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,7 +78,8 @@ class MasterFragment : Fragment() {
         // Display all movies initially.
         viewModel.getAllMovies().observeChanges(
             viewLifecycleOwner,
-            moviesAdapter
+            moviesAdapter,
+            allMoviesCallback
         )
     }
 
@@ -77,7 +100,8 @@ class MasterFragment : Fragment() {
                     // Display all movies back.
                     viewModel.getAllMovies().observeChanges(
                         viewLifecycleOwner,
-                        moviesAdapter
+                        moviesAdapter,
+                        allMoviesCallback
                     )
 
                     return true
@@ -97,7 +121,8 @@ class MasterFragment : Fragment() {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         viewModel.searchMoviesByName(query).observeChanges(
                             viewLifecycleOwner,
-                            moviesAdapter
+                            moviesAdapter,
+                            searchQueryCallback
                         )
                         return true
                     }
@@ -118,13 +143,15 @@ class MasterFragment : Fragment() {
                         if (it.isNotEmpty()) {
                             viewModel.searchMoviesByName(it).observeChanges(
                                 viewLifecycleOwner,
-                                moviesAdapter
+                                moviesAdapter,
+                                searchQueryCallback
                             )
                         } else {
                             // If there is no search query, display all movies back.
                             viewModel.getAllMovies().observeChanges(
                                 viewLifecycleOwner,
-                                moviesAdapter
+                                moviesAdapter,
+                                allMoviesCallback
                             )
                         }
                     }

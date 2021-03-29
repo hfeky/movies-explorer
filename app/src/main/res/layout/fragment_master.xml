@@ -45,8 +45,43 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_header"
-            tools:itemCount="5"
+            tools:itemCount="20"
             tools:listitem="@layout/item_movie" />
+
+        <!--
+        Having a ConstraintLayout Group inside a MotionLayout does not work as
+        expected, so updating both views visibility separately are necessary.
+        -->
+        <ImageView
+            android:id="@+id/iv_no_search_results"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/cd_movies_header"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/tv_no_search_results"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTag="state_no_search_results"
+            app:layout_constraintTop_toTopOf="@id/rv_movies"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent="0.5"
+            app:srcCompat="@drawable/img_no_search_results" />
+
+        <TextView
+            android:id="@+id/tv_no_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/no_search_results"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/rv_movies"
+            app:layout_constraintTag="state_no_search_results"
+            app:layout_constraintTop_toBottomOf="@id/iv_no_search_results" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

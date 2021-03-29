@@ -4,13 +4,43 @@
 
     <Transition
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start">
+        app:constraintSetStart="@+id/start"
+        app:layoutDuringTransition="honorRequest">
         <OnSwipe
             app:dragDirection="dragUp"
             app:touchAnchorId="@id/rv_movies" />
     </Transition>
 
-    <ConstraintSet android:id="@+id/start">
+    <!-- This is needed to be able to change the no search results layout views visibility -->
+    <ConstraintSet android:id="@+id/common">
+
+        <Constraint
+            android:id="@id/iv_no_search_results"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/tv_no_search_results"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTag="state_no_search_results"
+            app:layout_constraintTop_toTopOf="@id/rv_movies"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent="0.5"
+            app:visibilityMode="ignore" />
+
+        <Constraint
+            android:id="@id/tv_no_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/rv_movies"
+            app:layout_constraintTag="state_no_search_results"
+            app:layout_constraintTop_toBottomOf="@id/iv_no_search_results"
+            app:visibilityMode="ignore" />
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/start"
+        app:deriveConstraintsFrom="@id/common">
 
         <Constraint
             android:id="@id/iv_header"
@@ -30,7 +60,9 @@
 
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet
+        android:id="@+id/end"
+        app:deriveConstraintsFrom="@id/common">
 
         <Constraint
             android:id="@id/iv_header"

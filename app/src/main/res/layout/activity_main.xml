@@ -40,7 +40,7 @@
                     app:isVisible="@{viewModel.imagesLoading}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_error_state"
+                    android:id="@+id/state_images_error"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone">

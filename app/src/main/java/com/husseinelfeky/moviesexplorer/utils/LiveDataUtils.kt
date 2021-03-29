@@ -12,10 +12,12 @@ import timber.log.Timber
  */
 fun <T : DifferentiableItem> LiveData<List<T>>.observeChanges(
     viewLifecycleOwner: LifecycleOwner,
-    adapter: ListAdapter<DifferentiableItem, RecyclerView.ViewHolder>
+    adapter: ListAdapter<DifferentiableItem, RecyclerView.ViewHolder>,
+    callback: ((List<T>) -> Unit)? = null
 ) {
     observe(viewLifecycleOwner) {
         Timber.d("Displayed adapter count: ${it.size}")
         adapter.submitList(it)
+        callback?.invoke(it)
     }
 }

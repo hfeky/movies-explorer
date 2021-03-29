@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
                         // Hide movie images views.
                         svImages.visibility = View.GONE
-                        layoutErrorState.visibility = View.GONE
+                        stateImagesError.visibility = View.GONE
                         pbImages.visibility = View.GONE
                     }
                     isFirstLaunch = false
@@ -85,11 +85,11 @@ class MainActivity : AppCompatActivity() {
                 when (result.status) {
                     Result.Status.LOADING -> {
                         svImages.visibility = View.GONE
-                        layoutErrorState.visibility = View.GONE
+                        stateImagesError.visibility = View.GONE
                         pbImages.visibility = View.VISIBLE
                     }
                     Result.Status.SUCCESS -> {
-                        layoutErrorState.visibility = View.GONE
+                        stateImagesError.visibility = View.GONE
                         svImages.visibility = View.VISIBLE
                         if (svImages.sliderAdapter == null) {
                             // Initialize the images slider adapter.
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                     Result.Status.ERROR -> {
                         pbImages.visibility = View.GONE
                         svImages.visibility = View.GONE
-                        layoutErrorState.visibility = View.VISIBLE
+                        stateImagesError.visibility = View.VISIBLE
                         ivError.contentDescription = result.message
 
                         // Show the error message.
