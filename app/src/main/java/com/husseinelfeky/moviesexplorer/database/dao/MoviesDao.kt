@@ -52,7 +52,7 @@ interface MoviesDao {
     @Transaction
     suspend fun saveMovie(movie: MovieDto) {
         movie.apply {
-            saveMovie(Movie(title, rating, year))
+            saveMovie(toDomainModel())
 
             genres.forEach {
                 saveGenre(Genre(it))
