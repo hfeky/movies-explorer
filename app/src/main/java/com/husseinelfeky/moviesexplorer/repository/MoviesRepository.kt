@@ -1,7 +1,6 @@
 package com.husseinelfeky.moviesexplorer.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.husseinelfeky.moviesexplorer.BuildConfig
 import com.husseinelfeky.moviesexplorer.database.dao.MoviesDao
 import com.husseinelfeky.moviesexplorer.database.entity.Movie
@@ -20,59 +19,40 @@ import kotlinx.coroutines.flow.flow
 class MoviesRepository(
     private val moviesDao: MoviesDao,
     private val flickrApiService: FlickrApiService
-) {
+) : MoviesDataSource {
 
     /**
      * Retrieve all cached movies.
      *
      * @return an observable list of all cached movies.
      */
-    fun getAllMovies(): LiveData<List<Movie>> {
+    override fun getAllMovies(): LiveData<List<Movie>> {
         return moviesDao.getAllMovies()
     }
 
     /**
      * Search movies by name.
      *
+     * Note that it is better to sort the data at the very end more than sorting it in the
+     * SQLite query, as there will be less data thus less comparisons will be performed.
+     *
      * @return an observable list of movies grouped by year as [YearWithMovies].
      */
-    fun searchMoviesByName(searchQuery: String): LiveData<List<YearWithMovies>> {
-        // The results are already filtered from the DAO.
-        // We only need to group them and get top 5 movies of each year.
-        return moviesDao.getMoviesByQuery(searchQuery).map { movies ->
-            // Group (categorize) the results by year.
-            movies.groupBy { it.year }
-                // Transform the map to a list of [YearWithMovies].
-                .map { year ->
-                    YearWithMovies(
-                        year.key,
-                        // Sort the results first with rating in descending order,
-                        // then by movie name in ascending order.
-                        year.value.sortedWith(compareBy({ -it.rating }, { it.movieName }))
-                            // Then take only the top 5 movies of each year.
-                            .take(5)
-                    )
-                }
-                // Sort the groups by year in descending order.
-                .sortedByDescending(YearWithMovies::year)
-        }
+    override fun searchMoviesByName(searchQuery: String): LiveData<List<YearWithMovies>> {
+        return filterMoviesSearchResults(moviesDao.getMoviesByQuery(searchQuery))
     }
 
     /**
      * Get movie details by name.
      */
-    suspend fun getMovieByName(name: String): MovieDetails {
+    override suspend fun getMovieByName(name: String): MovieDetails {
         return moviesDao.getMovieByName(name)
     }
 
     /**
-     * Fetch movie images using Flickr API.
+     * Fetch at most [MovieImages.PAGE_COUNT] movie images using Flickr API.
      */
-    suspend fun getMovieImages(
-        movieName: String,
-        page: Int = MovieImages.INITIAL_PAGE,
-        perPage: Int = MovieImages.PAGE_COUNT
-    ): Flow<Result<List<MovieImage>>> {
+    override suspend fun getMovieImages(movieName: String): Flow<Result<List<MovieImage>>> {
         return flow {
             getResult("Failed to fetch movie images.") {
                 flickrApiService.searchPhotos(
@@ -80,9 +60,7 @@ class MoviesRepository(
                     apiKey = BuildConfig.FLICKR_API_KEY,
                     format = "json",
                     noJson = 1,
-                    searchText = movieName,
-                    page = page,
-                    perPage = perPage
+                    searchText = movieName
                 )
             }
         }.mapResultTo {

@@ -2,10 +2,10 @@ package com.husseinelfeky.moviesexplorer.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
+import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
 
 class DetailViewModel(
-    private val moviesRepository: MoviesRepository,
+    private val moviesRepository: MoviesDataSource,
     private val movieName: String
 ) : ViewModel() {
 
