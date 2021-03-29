@@ -8,6 +8,7 @@ import com.husseinelfeky.moviesexplorer.database.entity.Movie
 import com.husseinelfeky.moviesexplorer.database.relation.MovieDetails
 import com.husseinelfeky.moviesexplorer.model.MovieImage
 import com.husseinelfeky.moviesexplorer.model.Result
+import com.husseinelfeky.moviesexplorer.model.YearWithMovies
 import com.husseinelfeky.moviesexplorer.network.FlickrApiService
 import com.husseinelfeky.moviesexplorer.utils.Flickr
 import com.husseinelfeky.moviesexplorer.utils.MovieImages
@@ -25,20 +26,25 @@ class MoviesRepository(
         return moviesDao.getAllMovies()
     }
 
-    fun searchMoviesByName(searchQuery: String): LiveData<List<Movie>> {
+    fun searchMoviesByName(searchQuery: String): LiveData<List<YearWithMovies>> {
         // The results are already filtered from the DAO.
         // We only need to group them and get top 5 movies of each year.
         return moviesDao.getMoviesByQuery(searchQuery).map { movies ->
             // Group (categorize) the results by year.
             movies.groupBy { it.year }
-                // Transform the map to a list.
-                .flatMap { year ->
-                    // Sort the results first with rating in descending order,
-                    // then by movie name in ascending order.
-                    year.value.sortedWith(compareBy({ -it.rating }, { it.movieName }))
-                        // Then take only the top 5 movies of each year.
-                        .take(5)
+                // Transform the map to a list of [YearWithMovies].
+                .map { year ->
+                    YearWithMovies(
+                        year.key,
+                        // Sort the results first with rating in descending order,
+                        // then by movie name in ascending order.
+                        year.value.sortedWith(compareBy({ -it.rating }, { it.movieName }))
+                            // Then take only the top 5 movies of each year.
+                            .take(5)
+                    )
                 }
+                // Sort the groups by year in descending order.
+                .sortedByDescending(YearWithMovies::year)
         }
     }
 

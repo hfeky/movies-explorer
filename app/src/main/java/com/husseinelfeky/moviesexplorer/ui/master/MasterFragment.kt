@@ -4,20 +4,18 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.husseinelfeky.moviesexplorer.R
-import com.husseinelfeky.moviesexplorer.database.entity.Movie
 import com.husseinelfeky.moviesexplorer.databinding.FragmentMasterBinding
 import com.husseinelfeky.moviesexplorer.ui.master.adapter.MoviesAdapter
+import com.husseinelfeky.moviesexplorer.utils.observeChanges
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -55,7 +53,10 @@ class MasterFragment : Fragment() {
 
     private fun initObservers() {
         // Display all movies initially.
-        viewModel.getAllMovies().observeChanges()
+        viewModel.getAllMovies().observeChanges(
+            viewLifecycleOwner,
+            moviesAdapter
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,7 +74,10 @@ class MasterFragment : Fragment() {
                     binding.motionLayout.transitionToStart()
 
                     // Display all movies back.
-                    viewModel.getAllMovies().observeChanges()
+                    viewModel.getAllMovies().observeChanges(
+                        viewLifecycleOwner,
+                        moviesAdapter
+                    )
 
                     return true
                 }
@@ -90,7 +94,10 @@ class MasterFragment : Fragment() {
             callbackFlow<String> {
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        viewModel.searchMoviesByName(query).observeChanges()
+                        viewModel.searchMoviesByName(query).observeChanges(
+                            viewLifecycleOwner,
+                            moviesAdapter
+                        )
                         return true
                     }
 
@@ -108,22 +115,20 @@ class MasterFragment : Fragment() {
                     // if the user has already closed the search view.
                     if (item.isActionViewExpanded) {
                         if (it.isNotEmpty()) {
-                            viewModel.searchMoviesByName(it).observeChanges()
+                            viewModel.searchMoviesByName(it).observeChanges(
+                                viewLifecycleOwner,
+                                moviesAdapter
+                            )
                         } else {
                             // If there is no search query, display all movies back.
-                            viewModel.getAllMovies().observeChanges()
+                            viewModel.getAllMovies().observeChanges(
+                                viewLifecycleOwner,
+                                moviesAdapter
+                            )
                         }
                     }
                 }
                 .launchIn(lifecycleScope)
-        }
-    }
-
-    // Update the recycler view with the movies.
-    fun LiveData<List<Movie>>.observeChanges() {
-        observe(viewLifecycleOwner) {
-            Timber.d("Displayed movies count: ${it.size}")
-            moviesAdapter.submitList(it)
         }
     }
 }
