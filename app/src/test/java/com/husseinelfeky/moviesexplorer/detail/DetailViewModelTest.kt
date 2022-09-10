@@ -3,7 +3,7 @@ package com.husseinelfeky.moviesexplorer.detail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.husseinelfeky.moviesexplorer.data.FakeMoviesRepository
 import com.husseinelfeky.moviesexplorer.model.MovieDto
-import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.ui.detail.DetailViewModel
 import com.husseinelfeky.moviesexplorer.utils.FakeMovies
 import com.husseinelfeky.moviesexplorer.utils.MainCoroutineRule
@@ -53,7 +53,7 @@ class DetailViewModelTest : AutoCloseKoinTest() {
                     movieName = movieDto.title
                 )
             }
-            single<MoviesDataSource> {
+            single<MoviesRepository> {
                 FakeMoviesRepository(
                     moviesList = FakeMovies.getMoviesList()
                 )

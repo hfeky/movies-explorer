@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.husseinelfeky.moviesexplorer.database.entity.Movie
 import com.husseinelfeky.moviesexplorer.model.Year
-import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.utils.adapter.DifferentiableItem
 
-class MasterViewModel(private val moviesRepository: MoviesDataSource) : ViewModel() {
+class MasterViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
 
     fun getAllMovies(): LiveData<List<Movie>> {
         return moviesRepository.getAllMovies()

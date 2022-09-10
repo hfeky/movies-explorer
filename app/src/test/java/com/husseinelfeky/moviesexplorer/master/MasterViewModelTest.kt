@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.husseinelfeky.moviesexplorer.data.FakeMoviesRepository
 import com.husseinelfeky.moviesexplorer.database.entity.Movie
 import com.husseinelfeky.moviesexplorer.model.Year
-import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.ui.master.MasterViewModel
 import com.husseinelfeky.moviesexplorer.utils.FakeMovies
 import com.husseinelfeky.moviesexplorer.utils.MainCoroutineRule
@@ -49,7 +49,7 @@ class MainViewModelTest : AutoCloseKoinTest() {
                     moviesRepository = get()
                 )
             }
-            single<MoviesDataSource> {
+            single<MoviesRepository> {
                 FakeMoviesRepository(
                     moviesList = FakeMovies.getMoviesList()
                 )

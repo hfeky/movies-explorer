@@ -21,7 +21,7 @@ import com.husseinelfeky.moviesexplorer.database.MoviesProvider
 import com.husseinelfeky.moviesexplorer.koin.repositoriesModule
 import com.husseinelfeky.moviesexplorer.koin.servicesModule
 import com.husseinelfeky.moviesexplorer.koin.viewModelsModule
-import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.ui.main.MainActivity
 import com.husseinelfeky.moviesexplorer.utils.DataBindingIdlingResource
 import com.husseinelfeky.moviesexplorer.utils.EspressoIdlingResource
@@ -43,7 +43,7 @@ import org.koin.test.get
 @LargeTest
 class MainActivityTest : AutoCloseKoinTest() {
 
-    private lateinit var repository: MoviesDataSource
+    private lateinit var repository: MoviesRepository
     private lateinit var appContext: Application
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()

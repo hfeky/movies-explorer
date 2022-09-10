@@ -11,7 +11,7 @@ import com.husseinelfeky.moviesexplorer.database.entity.Movie
 import com.husseinelfeky.moviesexplorer.model.MovieDto
 import com.husseinelfeky.moviesexplorer.model.Result
 import com.husseinelfeky.moviesexplorer.network.FlickrApiService
-import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepositoryImpl
 import com.husseinelfeky.moviesexplorer.utils.FakeMovies
 import com.husseinelfeky.moviesexplorer.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,11 +34,11 @@ import java.util.concurrent.Executors
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class MoviesRepositoryTest {
+class MoviesRepositoryImplTest {
 
     private lateinit var database: LocalDb
     private lateinit var moviesDao: MoviesDao
-    private lateinit var moviesRepository: MoviesRepository
+    private lateinit var moviesRepository: MoviesRepositoryImpl
 
     private lateinit var movieDto: MovieDto
 
@@ -60,7 +60,7 @@ class MoviesRepositoryTest {
             .build()
 
         moviesDao = database.moviesDao()
-        moviesRepository = MoviesRepository(moviesDao, flickrApiService)
+        moviesRepository = MoviesRepositoryImpl(moviesDao, flickrApiService)
 
         movieDto = FakeMovies.getMovieDto()
     }

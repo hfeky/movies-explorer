@@ -3,7 +3,7 @@ package com.husseinelfeky.moviesexplorer.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.husseinelfeky.moviesexplorer.data.FakeMoviesRepository
 import com.husseinelfeky.moviesexplorer.model.Result
-import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.ui.main.MainViewModel
 import com.husseinelfeky.moviesexplorer.utils.FakeMovies
 import com.husseinelfeky.moviesexplorer.utils.MainCoroutineRule
@@ -51,7 +51,7 @@ class MainViewModelTest : AutoCloseKoinTest() {
                     moviesRepository = get()
                 )
             }
-            single<MoviesDataSource> {
+            single<MoviesRepository> {
                 FakeMoviesRepository(
                     moviesList = FakeMovies.getMoviesList()
                 )
@@ -63,7 +63,7 @@ class MainViewModelTest : AutoCloseKoinTest() {
         }
 
         viewModel = get()
-        moviesRepository = get<MoviesDataSource>() as FakeMoviesRepository
+        moviesRepository = get<MoviesRepository>() as FakeMoviesRepository
     }
 
     @Test

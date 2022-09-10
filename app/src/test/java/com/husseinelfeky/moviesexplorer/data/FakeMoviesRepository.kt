@@ -7,12 +7,12 @@ import com.husseinelfeky.moviesexplorer.database.relation.MovieDetails
 import com.husseinelfeky.moviesexplorer.model.MovieImage
 import com.husseinelfeky.moviesexplorer.model.Result
 import com.husseinelfeky.moviesexplorer.model.YearWithMovies
-import com.husseinelfeky.moviesexplorer.repository.MoviesDataSource
+import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.utils.FakeMovies
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeMoviesRepository(private val moviesList: List<Movie>) : MoviesDataSource {
+class FakeMoviesRepository(private val moviesList: List<Movie>) : MoviesRepository {
 
     private var shouldReturnError = false
 
