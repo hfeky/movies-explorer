@@ -1,17 +1,16 @@
 package com.husseinelfeky.moviesexplorer.ui.master.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.husseinelfeky.moviesexplorer.R
 import com.husseinelfeky.moviesexplorer.database.entity.Movie
 import com.husseinelfeky.moviesexplorer.model.Year
-import com.husseinelfeky.moviesexplorer.utils.adapter.DifferentiableItem
-import com.husseinelfeky.moviesexplorer.utils.adapter.DifferentiableItemDiffUtil
 
 class MoviesAdapter(
     private val clickListener: (Movie) -> Unit
-) : ListAdapter<DifferentiableItem, RecyclerView.ViewHolder>(DifferentiableItemDiffUtil.getInstance()) {
+) : ListAdapter<Movie, RecyclerView.ViewHolder>(MoviesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -34,6 +33,17 @@ class MoviesAdapter(
             R.layout.item_movie
         } else {
             R.layout.item_year
+        }
+    }
+
+    class MoviesDiffUtil : DiffUtil.ItemCallback<Movie>() {
+
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem.getUniqueIdentifier() == newItem.getUniqueIdentifier()
+        }
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem == newItem
         }
     }
 }
