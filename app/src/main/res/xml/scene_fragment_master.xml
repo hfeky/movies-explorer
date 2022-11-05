@@ -4,7 +4,7 @@
 
     <Transition
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start"
+        app:constraintSetStart="@id/start"
         app:layoutDuringTransition="honorRequest">
         <OnSwipe
             app:dragDirection="dragUp"
