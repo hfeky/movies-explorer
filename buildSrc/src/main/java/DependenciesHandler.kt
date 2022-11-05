@@ -113,7 +113,7 @@ fun DependencyHandlerScope.androidTestDependencies() {
     "androidTestImplementation"(Dependencies.AndroidX.espressoCore)
     "androidTestImplementation"(Dependencies.AndroidX.espressoContrib)
     "androidTestImplementation"(Dependencies.AndroidX.espressoIdlingConcurrent)
-    "androidTestImplementation"(Dependencies.AndroidX.espressoIdlingResource)
+    "implementation"(Dependencies.AndroidX.espressoIdlingResource)
     "androidTestImplementation"(Dependencies.AndroidX.espressoIntents)
 
     "androidTestImplementation"(Dependencies.linkedInDexMakerMockito)
