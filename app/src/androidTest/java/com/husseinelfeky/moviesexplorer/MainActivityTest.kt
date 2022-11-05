@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
@@ -21,7 +21,6 @@ import com.husseinelfeky.moviesexplorer.database.MoviesProvider
 import com.husseinelfeky.moviesexplorer.koin.repositoriesModule
 import com.husseinelfeky.moviesexplorer.koin.servicesModule
 import com.husseinelfeky.moviesexplorer.koin.viewModelsModule
-import com.husseinelfeky.moviesexplorer.repository.MoviesRepository
 import com.husseinelfeky.moviesexplorer.ui.main.MainActivity
 import com.husseinelfeky.moviesexplorer.utils.DataBindingIdlingResource
 import com.husseinelfeky.moviesexplorer.utils.EspressoIdlingResource
@@ -36,14 +35,12 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 
 // End-to-end test to black box test the app.
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class MainActivityTest : AutoCloseKoinTest() {
 
-    private lateinit var repository: MoviesRepository
     private lateinit var appContext: Application
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
@@ -57,7 +54,7 @@ class MainActivityTest : AutoCloseKoinTest() {
     fun init() {
         // Stop the original app Koin.
         stopKoin()
-        appContext = getApplicationContext()
+        appContext = ApplicationProvider.getApplicationContext()
 
         val databaseModule = module {
             single {
@@ -93,9 +90,6 @@ class MainActivityTest : AutoCloseKoinTest() {
                 )
             )
         }
-
-        // Get our real repository.
-        repository = get()
     }
 
     @Before
