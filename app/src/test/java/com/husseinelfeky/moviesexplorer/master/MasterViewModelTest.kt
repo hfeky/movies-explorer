@@ -11,6 +11,7 @@ import com.husseinelfeky.moviesexplorer.utils.MainCoroutineRule
 import com.husseinelfeky.moviesexplorer.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -67,7 +68,8 @@ class MainViewModelTest : AutoCloseKoinTest() {
         val result = viewModel.getAllMovies().getOrAwaitValue()
 
         // THEN - Verify that movies exist and are fetched successfully.
-        assertThat(result.isNullOrEmpty(), `is`(false))
+        assertThat(result, `is`(notNullValue()))
+        assertThat(result.size, `is`(0))
     }
 
     @Test
@@ -80,7 +82,8 @@ class MainViewModelTest : AutoCloseKoinTest() {
 
         // THEN - Verify that search results are found and contain 8 differentiable items
         // (2 years and 6 movies).
-        assertThat(result.isNullOrEmpty(), `is`(false))
+        assertThat(result, `is`(notNullValue()))
+
         assertThat(result.size, `is`(8))
 
         var expectedMoviesCount = 6
