@@ -2,9 +2,6 @@ package com.husseinelfeky.moviesexplorer
 
 import android.app.Application
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -16,8 +13,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.husseinelfeky.moviesexplorer.database.LocalDb
-import com.husseinelfeky.moviesexplorer.database.MoviesProvider
+import com.husseinelfeky.moviesexplorer.koin.databaseModule
 import com.husseinelfeky.moviesexplorer.koin.repositoriesModule
 import com.husseinelfeky.moviesexplorer.koin.servicesModule
 import com.husseinelfeky.moviesexplorer.koin.viewModelsModule
@@ -31,9 +27,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
 
 // End-to-end test to black box test the app.
@@ -56,31 +52,9 @@ class MainActivityTest : AutoCloseKoinTest() {
         stopKoin()
         appContext = ApplicationProvider.getApplicationContext()
 
-        val databaseModule = module {
-            single {
-                var database: LocalDb? = null
-
-                database = Room.databaseBuilder(
-                    appContext,
-                    LocalDb::class.java,
-                    LocalDb::class.java.simpleName
-                ).fallbackToDestructiveMigration()
-                    // Populate the database with the data in movies.json file.
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                            MoviesProvider.populateJsonData(appContext, get(), database)
-                        }
-                    })
-                    .build()
-
-                database
-            }
-            single { get<LocalDb>().moviesDao() }
-        }
-
         // Declare a new Koin module.
         startKoin {
+            androidContext(ApplicationProvider.getApplicationContext())
             modules(
                 listOf(
                     databaseModule,
