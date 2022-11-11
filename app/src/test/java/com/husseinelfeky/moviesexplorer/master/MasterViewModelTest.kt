@@ -22,7 +22,7 @@ import org.koin.test.AutoCloseKoinTest
 import org.koin.test.get
 
 @ExperimentalCoroutinesApi
-class MainViewModelTest : AutoCloseKoinTest() {
+class MasterViewModelTest : AutoCloseKoinTest() {
 
     private lateinit var viewModel: MasterViewModel
 
