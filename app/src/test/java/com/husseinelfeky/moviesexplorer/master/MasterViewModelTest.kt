@@ -11,7 +11,6 @@ import com.husseinelfeky.moviesexplorer.utils.MainCoroutineRule
 import com.husseinelfeky.moviesexplorer.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
