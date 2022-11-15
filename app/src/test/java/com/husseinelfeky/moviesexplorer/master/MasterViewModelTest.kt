@@ -82,8 +82,6 @@ class MainViewModelTest : AutoCloseKoinTest() {
 
         // THEN - Verify that search results are found and contain 8 differentiable items
         // (2 years and 6 movies).
-        assertThat(result, `is`(notNullValue()))
-
         assertThat(result.size, `is`(8))
 
         var expectedMoviesCount = 6
